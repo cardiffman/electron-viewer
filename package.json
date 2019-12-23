@@ -1,0 +1,15 @@
+{
+  "name": "viewer",
+  "version": "1.0.0",
+  "description": "View files",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "cardiffman",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.1.7"
+  }
+}

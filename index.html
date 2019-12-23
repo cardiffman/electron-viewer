@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <script>
+    let parts = [];
+    let stub = "";
+    let fragment = document.createElement("pre");
+    const readfs= () => {
+        //console.log("readfs");
+        document.getElementById("datahere").innerHtml += ("starting");
+        fs = require("fs");
+        let stream = fs.createReadStream("test.dat");
+        if (!stream) {
+            document.getElementById("datahere") += ("Nope");
+            return;
+        }
+        stream.on('data', (chunk)=> {
+            //parts.push(chunk);
+            let input = stub+chunk;
+            let pieces = input.split('\n');
+            let whole = input[input.length-1] == '\n';
+            // If the input doesn't end with the delimiter,
+            // then the last piece is not an entire token.
+            //if (!whole) {
+            //    stub = pieces.pop();
+            //}
+            //pieces.forEach((piece) => {
+            //    document.getElementById("datahere").innerHTML += '['+piece+']\n';
+            //})
+            if (!whole) {
+                stub = pieces.pop();
+            } else {
+                stub = "";
+            }
+            pieces.forEach((piece) => {
+                fragment.append(piece+'\n');
+            });
+        });
+        stream.on('end', ()=> {
+            //document.getElementById("datahere").innerHTML += '['+stub+'] ';
+            //document.getElementById("datahere").innerHTML += ("that's all");
+            fragment.append(stub);
+            fragment.append("\nthat's all");
+            document.getElementById("datahere").appendChild(fragment);
+            console.log("end");
+        })
+    }
+    console.log("script in head");
+    onload = readfs;
+    </script>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+  <div id="datahere"></div>
+  </body>
+</html>
