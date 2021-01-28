@@ -10,6 +10,6 @@
   "author": "cardiffman",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^7.2.4"
+    "electron": "^9.4.0"
   }
 }
